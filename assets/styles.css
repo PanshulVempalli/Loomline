@@ -334,3 +334,46 @@ html.lenis,html.lenis body{height:auto}
   .b-chat{width:82%;font-size:.72rem}
   .build__toast{top:46px;font-size:.74rem}
 }
+
+/* ================= v6: loom, 3D orb, ambient motion ================= */
+.loom{position:relative;z-index:1;padding:clamp(72px,9vw,120px) 0;background:radial-gradient(60% 50% at 70% 50%,rgba(20,184,166,.08),transparent 70%)}
+.loom__inner{width:min(1180px,100% - 2*var(--gutter));margin:0 auto;display:grid;gap:40px;align-items:center}
+@media(min-width:900px){.loom{min-height:100vh;display:flex;align-items:center}.loom__inner{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:64px}}
+.loom__stage{display:flex;justify-content:center}
+#loomCanvas{width:100%;max-width:560px;height:auto;aspect-ratio:640/720}
+@media(min-width:900px){#loomCanvas{max-height:84vh;width:auto}}
+.loom__stages{list-style:none;margin:32px 0 0;padding:0;display:grid;gap:10px;counter-reset:st}
+.loom__stages li{counter-increment:st;display:grid;grid-template-columns:44px 1fr;column-gap:14px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;color:var(--muted);transition:border-color .35s ease,background-color .35s ease,color .35s ease}
+.loom__stages li::before{content:counter(st);grid-row:span 2;font:800 1.6rem/1 var(--display);color:var(--line);transition:color .35s ease}
+.loom__stages li span{font:700 1.15rem var(--display);color:var(--text)}
+.loom__stages li.is-on{border-color:var(--teal);background:rgba(20,184,166,.07);color:var(--text)}
+.loom__stages li.is-on::before{color:var(--coral)}
+
+/* manifesto + 3D orb */
+.manifesto__inner{width:min(1180px,100% - 2*var(--gutter));margin:0 auto;display:grid;gap:24px;align-items:center}
+.manifesto__inner .manifesto__text{width:auto;margin:0}
+@media(min-width:1000px){.manifesto__inner{grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:40px}.manifesto__inner .orb{order:2}}
+.orb{position:relative;width:100%;aspect-ratio:1/1;max-width:520px;justify-self:center}
+.orb canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+@media(max-width:999px){.orb{max-width:340px}}
+
+/* ambient: shine on primary buttons */
+.btn--magnet{position:relative;overflow:hidden;isolation:isolate}
+.btn--magnet::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);transform:translateX(-120%);animation:shine 5.5s ease-in-out 2.5s infinite;z-index:-1}
+@keyframes shine{0%,70%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
+
+/* ambient: drifting colour behind the contact form */
+.contact{overflow:hidden}
+.contact::before,.contact::after{content:"";position:absolute;width:56vmax;height:56vmax;border-radius:50%;pointer-events:none;z-index:0}
+.contact::before{left:-18vmax;top:-20vmax;background:radial-gradient(closest-side,rgba(20,184,166,.20),transparent);animation:drift1 18s ease-in-out infinite alternate}
+.contact::after{right:-20vmax;bottom:-24vmax;background:radial-gradient(closest-side,rgba(251,113,133,.18),transparent);animation:drift2 22s ease-in-out infinite alternate}
+.contact .wrap{position:relative;z-index:1}
+@keyframes drift1{to{transform:translate(14vmax,10vmax) scale(1.15)}}
+@keyframes drift2{to{transform:translate(-12vmax,-14vmax) scale(.9)}}
+
+/* ambient: a light runs along the process rail */
+@media(min-width:1000px){
+  .steps__rail::after{content:"";position:absolute;top:-3px;left:0;width:90px;height:8px;border-radius:8px;background:radial-gradient(closest-side,rgba(251,113,133,.95),transparent);opacity:0;animation:runlight 4.5s ease-in-out 1s infinite}
+}
+@keyframes runlight{0%{transform:translateX(-60px);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateX(calc(min(1180px,100vw - 2*var(--gutter)) - 30px));opacity:0}}
+.loom__stages{padding-left:8px}

@@ -113,7 +113,10 @@
 </section>
 
 <section class="manifesto" aria-label="What we believe">
+  <div class="manifesto__inner">
+  <div class="orb" id="orb" aria-hidden="true"></div>
   <p class="manifesto__text" data-scrub-words>Most local websites look fine and do nothing. We build ones that answer questions, take the booking and tell you who is next, so you can get on with the actual work.</p>
+  </div>
 </section>
 
 <svg class="thread" id="thread" aria-hidden="true" focusable="false"><path class="thread__base"></path><path class="thread__draw"></path><g class="thread__nodes"></g><circle class="thread__head" r="6"></circle></svg>
@@ -167,6 +170,24 @@
   </div>
   <div class="wrap">
     <p class="section__note">Prices are agreed in writing after your audit, before any work starts.</p>
+  </div>
+</section>
+
+<section class="loom" id="loom" aria-labelledby="loom-title">
+  <div class="loom__inner">
+    <div class="loom__copy">
+      <h2 class="section__title" id="loom-title" data-reveal>From thread to finished site.</h2>
+      <p class="section__lead">Every site is made row by row: planned, designed, built and launched, with you checking each stage before the next one starts.</p>
+      <ol class="loom__stages">
+        <li><span>Plan</span>What you need, who it is for, what it costs.</li>
+        <li><span>Design</span>How it looks and reads, signed off by you.</li>
+        <li><span>Build</span>Fast pages, working forms, local search basics.</li>
+        <li><span>Launch</span>Live, tested, and looked after if you want.</li>
+      </ol>
+    </div>
+    <div class="loom__stage">
+      <canvas id="loomCanvas" width="640" height="720" role="img" aria-label="An animated loom weaving a picture of a website, row by row"></canvas>
+    </div>
   </div>
 </section>
 
@@ -323,5 +344,7 @@
 <script src="assets/vendor/SplitText.min.js" defer></script>
 <script src="assets/app.js" defer></script>
 <script src="assets/motion.js" defer></script>
+<script src="assets/loom.js" defer></script>
+<script type="module" src="assets/orb.js"></script>
 </body>
 </html>

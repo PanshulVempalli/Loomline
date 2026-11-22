@@ -212,7 +212,22 @@
     /* services: horizontal pinned scroll on desktop, stacked reveals on mobile; line art draws itself */
     var vp = q('.panels-viewport'), track = q('.panels'), panels = qa('.panel');
     panels.forEach(function (p) { gsap.set(qa('.draw', p), { strokeDasharray: 1, strokeDashoffset: 1 }); });
-    var draw = function (p) { gsap.to(qa('.draw', p), { strokeDashoffset: 0, duration: 1.3, ease: 'power2.inOut', stagger: 0.07, overwrite: true }); };
+    var idleArt = function (p) { // once drawn, the art keeps moving
+      if (p.dataset.idle) return; p.dataset.idle = '1';
+      gsap.to(q('.panel__art', p), { y: -9, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+      qa('.draw--coral', p).forEach(function (el, i) {
+        if (el.tagName.toLowerCase() === 'path') { // heartbeat: a pulse runs along the line
+          gsap.set(el, { strokeDasharray: '0.28 0.72', strokeDashoffset: 0 });
+          gsap.to(el, { strokeDashoffset: -1, duration: 1.8, ease: 'none', repeat: -1 });
+        } else {
+          gsap.to(el, { opacity: 0.35, duration: 0.9, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: i * 0.3 });
+        }
+      });
+      qa('rect.draw:not(.draw--coral)', p).slice(0, 3).forEach(function (el, i) {
+        gsap.to(el, { x: i % 2 ? 4 : -4, duration: 1.8 + i * 0.4, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+      });
+    };
+    var draw = function (p) { gsap.to(qa('.draw', p), { strokeDashoffset: 0, duration: 1.3, ease: 'power2.inOut', stagger: 0.07, overwrite: true, onComplete: function () { idleArt(p); } }); };
     if (desktop && vp && track) {
       vp.classList.add('is-horizontal');
       var distance = function () { return Math.max(0, track.scrollWidth - window.innerWidth); };
@@ -265,6 +280,11 @@
     gsap.from('.form', { y: 60, opacity: 0, duration: 0.9, ease: EASE,
       scrollTrigger: { trigger: '.contact', start: 'top 55%', toggleActions: 'play none none none' } });
   });
+
+  /* ---------- ambient motion: things keep gently moving once they are on screen ---------- */
+  gsap.to('.frame__screen', { y: -7, duration: 2.8, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: { each: 0.8 } });
+  gsap.to('.reel__stage', { y: -12, duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+  gsap.to('.chip', { y: -3, duration: 1.6, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: { each: 0.4 } });
 
   /* ---------- marquee: always moving, speeds up and flips with scroll velocity ---------- */
   var mtrack = q('.marquee__track');
