@@ -34,6 +34,7 @@
   <a class="brand" href="#top" aria-label="Loomline home"><img src="assets/logo-icon.svg" alt="" width="36" height="36"><span>Loomline</span></a>
   <button class="bar__toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
   <nav class="nav" id="nav" aria-label="Main">
+    <a href="#reel">The reel</a>
     <a href="#build">What we build</a>
     <a href="#assistant">Assistant demo</a>
     <a href="#demos">Concept demos</a>
@@ -62,11 +63,26 @@
   </div>
 </section>
 
+<section class="reel" id="reel" aria-labelledby="reel-title">
+  <div class="reel__inner">
+    <div class="reel__copy">
+      <h2 class="section__title" id="reel-title" data-reveal>Loomline in 25 seconds.</h2>
+      <p class="section__lead">What we build, who it is for and how to start, in the time it takes to make a coffee.</p>
+      <button class="reel__sound" id="reelSound" type="button" aria-pressed="false">Turn sound on</button>
+    </div>
+    <div class="reel__stage">
+      <div class="reel__phone" id="reelPhone">
+        <video id="reelVideo" class="reel__video" src="assets/media/loomline-reel.mp4" poster="assets/media/reel-poster.jpg" muted loop playsinline preload="metadata" width="720" height="1280" aria-label="Loomline launch reel, 25 seconds"></video>
+      </div>
+    </div>
+  </div>
+</section>
+
 <svg class="thread" id="thread" aria-hidden="true" focusable="false"><path class="thread__base"></path><path class="thread__draw"></path><g class="thread__nodes"></g><circle class="thread__head" r="6"></circle></svg>
 
 <section class="section" id="build" data-node>
   <div class="wrap">
-    <h2 class="section__title" data-anchor>One thread from your website to your next customer.</h2>
+    <h2 class="section__title" data-anchor data-reveal>One thread from your website to your next customer.</h2>
     <p class="section__lead">If you are a plumber on a job, a stylist with a full diary or a clinic with a busy front desk, your website should quietly do its work. We keep it simple, quick and easy to keep up to date.</p>
     <div class="rows">
       <article class="row">
@@ -89,7 +105,7 @@
 <section class="section" id="assistant" data-node>
   <div class="wrap split">
     <div>
-      <h2 class="section__title" data-anchor>See an assistant handle an enquiry.</h2>
+      <h2 class="section__title" data-anchor data-reveal>See an assistant handle an enquiry.</h2>
       <p class="section__lead">Pick a business and watch a typical conversation. The assistant takes the details and passes them to the team, and it never pretends to be a person.</p>
       <div class="chips" role="group" aria-label="Choose a demo business">
         <button class="chip" type="button" data-scenario="plumber" aria-pressed="true">Plumber</button>
@@ -109,7 +125,7 @@
 
 <section class="section" id="demos" data-node>
   <div class="wrap">
-    <h2 class="section__title" data-anchor>Concept demos, not client work.</h2>
+    <h2 class="section__title" data-anchor data-reveal>Concept demos, not client work.</h2>
     <p class="section__lead">We are a new studio and will not pretend otherwise. These three concepts show our approach for different trades. The businesses are fictional, and nothing here is a real client, review or result.</p>
     <div class="frames">
       <article class="frame" tabindex="0">
@@ -149,7 +165,7 @@
 <section class="section" id="audit" data-node>
   <div class="wrap split">
     <div>
-      <h2 class="section__title" data-anchor>Five checks. One honest summary.</h2>
+      <h2 class="section__title" data-anchor data-reveal>Five checks. One honest summary.</h2>
       <p class="section__lead">We look at your current website, or your Google Business Profile if you do not have a site yet, and tell you what works, what does not and what to fix first. Use it yourself, with another developer or with us.</p>
       <p class="section__cta"><a class="btn btn--magnet" href="#contact">Get a free 5-point website audit</a></p>
     </div>
@@ -165,7 +181,7 @@
 
 <section class="section" id="process" data-node>
   <div class="wrap">
-    <h2 class="section__title" data-anchor>From first look to launch in four steps.</h2>
+    <h2 class="section__title" data-anchor data-reveal>From first look to launch in four steps.</h2>
     <ol class="steps">
       <li><span class="steps__n">1</span><h3>Free audit</h3><p>You send your details. We review your site against five practical checks and send a short summary.</p></li>
       <li><span class="steps__n">2</span><h3>Plan together</h3><p>We agree what you need and what it costs, in writing, before any work starts.</p></li>
@@ -178,7 +194,7 @@
 <section class="section" id="faq" data-node>
   <div class="wrap split">
     <div>
-      <h2 class="section__title" data-anchor>No hype. No hidden extras.</h2>
+      <h2 class="section__title" data-anchor data-reveal>No hype. No hidden extras.</h2>
       <ul class="ticks">
         <li>We never invent reviews, testimonials or results, for you or for us.</li>
         <li>We do not promise rankings, enquiries or sales. Nobody honest can.</li>
@@ -198,7 +214,7 @@
 <section class="contact" id="contact">
   <div class="wrap split">
     <div>
-      <h2 class="section__title section__title--ink">Get your free <span style="white-space:nowrap">5-point</span> website audit.</h2>
+      <h2 class="section__title section__title--ink" data-reveal>Get your free <span style="white-space:nowrap">5-point</span> website audit.</h2>
       <p class="section__lead section__lead--ink">Tell us where to look. We will review your site and send a plain-English summary. It is free, there is no obligation, and you keep the findings either way.</p>
     </div>
     <form class="form" id="auditForm" name="audit" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" novalidate>
@@ -228,6 +244,10 @@
 </footer>
 
 <!-- TODO before launch: add a full privacy notice, the legal entity name and company number if any, and a real contact email or phone if you want one shown. -->
+<script src="assets/vendor/gsap.min.js" defer></script>
+<script src="assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="assets/vendor/SplitText.min.js" defer></script>
 <script src="assets/app.js" defer></script>
+<script src="assets/motion.js" defer></script>
 </body>
 </html>

@@ -161,6 +161,7 @@
     }
 
     layout();
+    window.__threadLayout = layout;
     window.addEventListener('load', layout);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
     var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(layout, 150); });
