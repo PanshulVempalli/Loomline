@@ -44,23 +44,130 @@
     gsap.ticker.lagSmoothing(0);
   }
 
-  /* ---------- hero: characters rise in, then the hero drifts away as you scroll ---------- */
+  /* ---------- hero: letters rise in, lift toward the cursor, then a running stitch sews in ---------- */
+  window.__heroQuiet = true; // the canvas keeps its threads but drops the coral cursor trail
+  var heroEl = q('.hero'), title = q('.hero__title');
+  gsap.set('#stitchReveal', { attr: { width: 0 } });
+
+  var stitchIn = function () {
+    gsap.to('#stitchReveal', { attr: { width: 600 }, duration: 1.2, ease: 'power2.inOut' });
+    gsap.to('.stitch__line', { strokeDashoffset: -48, duration: 2.6, ease: 'none', repeat: -1 });
+  };
+
+  var enableLift = function (chars) {
+    if (!finePointer || !chars.length) return;
+    var ys = chars.map(function (c) { return gsap.quickTo(c, 'y', { duration: 0.5, ease: 'power3.out' }); });
+    var base = [244, 244, 251], teal = [20, 184, 166], px = -1e4, py = -1e4, raf = 0;
+    var tick = function () {
+      raf = 0;
+      chars.forEach(function (c, i) {
+        var r = c.getBoundingClientRect(), y = gsap.getProperty(c, 'y');
+        var dx = r.left + r.width / 2 - px, dy = r.top - y + r.height / 2 - py;
+        var f = Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) / 170); f = f * f * (3 - 2 * f);
+        ys[i](-18 * f);
+        c.style.color = f > 0.02 ? 'rgb(' + base.map(function (b, k) { return Math.round(b + (teal[k] - b) * f); }).join(',') + ')' : '';
+      });
+    };
+    var ask = function () { if (!raf) raf = requestAnimationFrame(tick); };
+    window.addEventListener('pointermove', function (e) {
+      var hr = heroEl.getBoundingClientRect();
+      if (e.clientY > hr.bottom) { if (px > -1e3) { px = py = -1e4; ask(); } return; }
+      px = e.clientX; py = e.clientY; ask();
+    }, { passive: true });
+    document.addEventListener('pointerleave', function () { px = py = -1e4; ask(); });
+  };
+
   fontsReady.then(function () {
     var spans = qa('.hero__line > span');
-    if (!window.SplitText || !spans.length) { showHero(); return; }
-    var splits = spans.map(function (s) { return new SplitText(s, { type: 'words,chars' }); });
-    var chars = splits.reduce(function (a, s) { return a.concat(s.chars); }, []);
-    gsap.set('.hero__title', { visibility: 'visible' });
-    gsap.from(chars, {
-      yPercent: 115, rotate: 7, opacity: 0, duration: 1.05, ease: EASE_STRONG,
-      stagger: { each: 0.022, from: 'start' }, delay: 0.25,
-      onComplete: function () { splits.forEach(function (s) { s.revert(); }); }
-    });
+    if (!window.SplitText || !spans.length) { showHero(); stitchIn(); return; }
+    spans.forEach(function (s) { s.setAttribute('aria-hidden', 'true'); }); // the h1 carries the full aria-label
+    var splits = spans.map(function (s) { return new SplitText(s, { type: 'words,chars', charsClass: 'char', aria: 'none' }); });
+    var chars = splits.reduce(function (a, sp) { return a.concat(sp.chars); }, []);
+    gsap.set(title, { visibility: 'visible' });
+    gsap.from(chars, { yPercent: 115, rotate: 7, opacity: 0, duration: 1.05, ease: EASE_STRONG, stagger: 0.022, delay: 0.25,
+      onComplete: function () { enableLift(chars); stitchIn(); } });
   });
-  gsap.to('.hero__inner', { yPercent: -18, scale: 0.94, opacity: 0, ease: 'none',
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+
+  gsap.matchMedia().add('(min-width: 1100px)', function () { // on stacked layouts the demo sits low in the hero, so no fade there
+    gsap.to('.hero__inner', { yPercent: -14, scale: 0.95, opacity: 0, ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  });
   gsap.to('#weave', { yPercent: 22, ease: 'none',
     scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+
+  /* ---------- hero demo: a site builds itself, a visitor clicks, the assistant answers, a lead arrives ---------- */
+  (function buildDemo() {
+    var page = q('.build__page'); if (!page) return;
+    var frame = q('.build__frame'), btn = q('.b-btn', page), head = q('.b-h__text', page);
+    var bot = q('.b-msg--bot', page), botText = q('.b-msg__text', page), dots = q('.b-typing', page);
+    var me = q('.b-msg--me', page), chat = q('.b-chat', page), cursor = q('.b-cursor', page), ripple = q('.b-ripple', page);
+    var toast = q('.build__toast'), headFull = head.textContent, botFull = botText.textContent;
+    var bx = function () { return btn.offsetLeft + btn.offsetWidth * 0.55; }, by = function () { return btn.offsetTop + btn.offsetHeight * 0.6; };
+    var typeInto = function (node, text, dur) {
+      var o = { n: 0 };
+      return gsap.to(o, { n: text.length, duration: dur, ease: 'none', onUpdate: function () { node.textContent = text.slice(0, Math.round(o.n)); } });
+    };
+
+    gsap.from('.build', { y: 70, rotateX: 16, opacity: 0, duration: 1.3, ease: EASE_STRONG, delay: 0.55, transformPerspective: 1200 });
+
+    var tl = gsap.timeline({ repeat: -1, repeatDelay: 0.6, delay: 1.5, defaults: { ease: EASE } });
+    tl.set(page, { opacity: 1 }, 0)
+      .call(function () { head.textContent = ''; botText.textContent = ''; }, null, 0)
+      .set('.b-logo, .b-link, .b-p, .b-h, .b-btn', { scaleX: 0 }, 0)
+      .set('.b-h', { backgroundColor: '#E2E8F0' }, 0)
+      .set(btn, { backgroundColor: '#CBD5E1', color: 'rgba(13,11,38,0)' }, 0)
+      .set('.b-img', { clipPath: 'inset(0 100% 0 0 round 12px)' }, 0)
+      .set('.b-cards span', { y: 18, opacity: 0 }, 0)
+      .set(chat, { y: 30, opacity: 0 }, 0)
+      .set([bot, me], { opacity: 0, y: 8 }, 0)
+      .set(dots, { display: 'none' }, 0)
+      .set(cursor, { opacity: 0, x: function () { return page.clientWidth * 0.86; }, y: function () { return page.clientHeight * 0.9; } }, 0)
+      .set(ripple, { opacity: 0 }, 0)
+      .set(toast, { opacity: 0, y: -18, xPercent: -50, x: 0 }, 0)
+      // wireframe
+      .to('.b-logo, .b-link', { scaleX: 1, duration: 0.45, stagger: 0.07 }, 0.1)
+      .to('.b-h', { scaleX: 1, duration: 0.5 }, 0.35)
+      .to('.b-p', { scaleX: 1, duration: 0.45, stagger: 0.1 }, 0.5)
+      .to('.b-img', { clipPath: 'inset(0 0% 0 0 round 12px)', duration: 0.8, ease: 'power3.inOut' }, 0.55)
+      .to('.b-cards span', { y: 0, opacity: 1, duration: 0.5, stagger: 0.08 }, 0.75)
+      .to(btn, { scaleX: 1, duration: 0.4 }, 0.85)
+      // real content
+      .to('.b-h', { backgroundColor: 'rgba(226,232,240,0)', duration: 0.3 }, 1.5)
+      .add(typeInto(head, headFull, 0.9), 1.55)
+      .to(btn, { backgroundColor: '#FB7185', color: 'rgba(13,11,38,1)', duration: 0.3 }, 2.5)
+      .fromTo(btn, { scale: 1 }, { scale: 1.08, duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' }, 2.55)
+      // a visitor arrives and taps "Call now"
+      .to(cursor, { opacity: 1, duration: 0.2 }, 2.9)
+      .to(cursor, { x: bx, y: by, duration: 0.75, ease: 'power2.inOut' }, 2.95)
+      .set(ripple, { x: bx, y: by, scale: 0.4, opacity: 1 }, 3.72)
+      .to(ripple, { scale: 1.7, opacity: 0, duration: 0.6, ease: 'power2.out' }, 3.72)
+      .fromTo(btn, { scale: 1 }, { scale: 0.93, duration: 0.1, yoyo: true, repeat: 1 }, 3.7)
+      .to(cursor, { opacity: 0, duration: 0.3 }, 4.1)
+      // the assistant picks it up
+      .to(chat, { y: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.6)' }, 4.1)
+      .to(bot, { opacity: 1, y: 0, duration: 0.3 }, 4.4)
+      .set(dots, { display: 'inline-flex' }, 4.4)
+      .set(dots, { display: 'none' }, 5.0)
+      .add(typeInto(botText, botFull, 0.9), 5.0)
+      .to(me, { opacity: 1, y: 0, duration: 0.35 }, 6.2)
+      // and the owner gets the lead
+      .to(toast, { opacity: 1, y: 0, duration: 0.55, ease: 'back.out(1.8)' }, 6.9)
+      .to(page, { opacity: 0, duration: 0.35 }, 9.4)
+      .to(toast, { opacity: 0, duration: 0.3 }, 9.4);
+    gsap.to('.b-typing i', { y: -3, duration: 0.3, stagger: 0.12, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+
+    ScrollTrigger.create({ trigger: '.build', start: 'top bottom', end: 'bottom top', onToggle: function (self) { if (self.isActive) tl.play(); else tl.pause(); } });
+
+    if (finePointer) { // the browser window leans gently toward the cursor
+      var rx = gsap.quickTo(frame, 'rotationX', { duration: 0.8, ease: 'power3.out' });
+      var ry = gsap.quickTo(frame, 'rotationY', { duration: 0.8, ease: 'power3.out' });
+      gsap.set(frame, { transformPerspective: 1400 });
+      window.addEventListener('pointermove', function (e) {
+        if (window.scrollY > window.innerHeight) return;
+        ry((e.clientX / window.innerWidth - 0.5) * 10); rx(-(e.clientY / window.innerHeight - 0.5) * 8);
+      }, { passive: true });
+    }
+  })();
 
   var mm = gsap.matchMedia();
   mm.add({ desktop: '(min-width: 900px)', mobile: '(max-width: 899px)' }, function (ctx) {

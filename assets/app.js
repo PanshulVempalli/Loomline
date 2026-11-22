@@ -20,6 +20,7 @@
 
   /* ---------- hero: woven thread field ---------- */
   (function () {
+    window.__heroQuiet = true; // threads still part around the cursor; no coral trail across the headline
     var cv = $('#weave'); if (!cv) return;
     var hero = cv.parentElement, ctx = cv.getContext('2d');
     var W = 0, H = 0, threads = [], gap = 12, grad = null;
@@ -71,7 +72,7 @@
         ctx.stroke();
       }
 
-      if (s > 0.9) {
+      if (s > 0.9 && !window.__heroQuiet) {
         var a = clamp((s - 0.9) / 0.8, 0, 1);
         trail.push({ x: head.x, y: head.y });
         if (trail.length > TRAIL) trail.shift();

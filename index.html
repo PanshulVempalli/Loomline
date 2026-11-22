@@ -50,15 +50,49 @@
 <section class="hero" id="top">
   <canvas class="hero__canvas" id="weave" aria-hidden="true"></canvas>
   <div class="hero__inner">
-    <h1 class="hero__title">
-      <span class="hero__line"><span>A&nbsp;website that</span></span>
-      <span class="hero__line"><span>wins you work,</span></span>
-      <span class="hero__line"><span>not just visitors.</span></span>
-    </h1>
-    <p class="hero__lead">Loomline builds fast, clear websites for London trades, salons, clinics and small shops, and adds an assistant that answers enquiries while you are busy.</p>
-    <div class="hero__actions">
-      <a class="btn btn--magnet" href="#contact">Get a free 5-point website audit</a>
-      <p class="hero__hint">Free, in plain English, no obligation. Move your cursor across the page: the coral thread follows.</p>
+    <div class="hero__grid">
+      <div class="hero__copy">
+        <h1 class="hero__title" aria-label="A website that wins you work, not just visitors.">
+          <span class="hero__line"><span>A&nbsp;website that</span></span>
+          <span class="hero__line"><span>wins you work,</span></span>
+          <span class="hero__line"><span>not just visitors.</span></span>
+        </h1>
+        <svg class="stitch" viewBox="0 0 600 24" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <defs><clipPath id="stitchClip"><rect id="stitchReveal" x="0" y="0" width="600" height="24"/></clipPath></defs>
+          <path class="stitch__line" clip-path="url(#stitchClip)" d="M2 14 C 80 4, 160 22, 240 12 S 400 4, 480 14 S 570 18, 598 10"/>
+        </svg>
+        <p class="hero__lead">Loomline builds fast, clear websites for London trades, salons, clinics and small shops, and adds an assistant that answers enquiries while you are busy.</p>
+        <div class="hero__actions">
+          <a class="btn btn--magnet" href="#contact">Get a free 5-point website audit</a>
+          <p class="hero__hint">Free, in plain English, no obligation.</p>
+        </div>
+      </div>
+      <figure class="build" aria-label="Concept demo: a fictional plumber's website being built and taking its first enquiry">
+        <div class="build__frame">
+          <div class="build__bar" aria-hidden="true"><i></i><i></i><i></i><span class="build__url">northgate-plumbing.example</span></div>
+          <div class="build__page" aria-hidden="true">
+            <div class="b-nav"><span class="b-logo">Northgate</span><span class="b-link"></span><span class="b-link"></span><span class="b-link"></span></div>
+            <div class="b-hero">
+              <div class="b-text">
+                <div class="b-h"><span class="b-h__text">Burst pipe? We are on our way.</span></div>
+                <div class="b-p"></div><div class="b-p b-p--short"></div>
+                <span class="b-btn">Call now</span>
+              </div>
+              <div class="b-img"><svg viewBox="0 0 64 64"><path d="M14 44 L34 24 M30 20 a8 8 0 1 0 14 14 l6 6 M20 50 l-6-6" /></svg></div>
+            </div>
+            <div class="b-cards"><span><i></i></span><span><i></i></span><span><i></i></span></div>
+            <div class="b-chat">
+              <div class="b-chat__head"><i></i>Northgate assistant <em>AI</em></div>
+              <div class="b-msg b-msg--bot"><span class="b-msg__text">Hi, I'm Northgate's AI assistant. What's the problem?</span><span class="b-typing"><i></i><i></i><i></i></span></div>
+              <div class="b-msg b-msg--me">Leaking boiler in E8.</div>
+            </div>
+            <svg class="b-cursor" viewBox="0 0 24 24"><path d="M4 2 L20 12 L12 13.5 L8.5 21 Z"/></svg>
+            <span class="b-ripple"></span>
+          </div>
+          <div class="build__toast"><i></i><span><strong>New lead</strong> Leaking boiler in E8, sent to your phone</span></div>
+        </div>
+        <figcaption>Concept demo: a fictional plumber's site, built and taking its first enquiry.</figcaption>
+      </figure>
     </div>
   </div>
 </section>
