@@ -404,3 +404,4 @@ html.lenis,html.lenis body{height:auto}
   .bookpill__text{white-space:normal}
 }
 @media (max-width:520px){.promises__list{grid-template-columns:1fr}}
+.book__note a,.foot a[href^="mailto"]{color:var(--teal);text-underline-offset:3px}

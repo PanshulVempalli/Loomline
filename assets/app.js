@@ -266,9 +266,19 @@
       var bad = $$('[required]', form).filter(function (el) { var ok = el.type === 'checkbox' ? el.checked : el.checkValidity() && el.value.trim() !== ''; el.classList.toggle('is-bad', !ok); return !ok; });
       if (bad.length) { status.className = 'form__status is-err'; status.textContent = 'Please complete the highlighted fields.'; bad[0].focus(); return; }
       var btn = $('button[type=submit]', form); btn.disabled = true; btn.textContent = 'Sending';
-      fetch(form.getAttribute('action') || '/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(form)).toString() })
+      var key = form.getAttribute('data-key') || '', data = new FormData(form);
+      if (!key || key.indexOf('PASTE') === 0) {
+        // no form-service key yet: open the visitor's mail app with the details filled in, so nothing is lost
+        var body = ['Name: ' + data.get('name'), 'Business: ' + data.get('business'), 'Website: ' + (data.get('website') || ''), 'Email: ' + data.get('email'), '', data.get('message') || ''].join('\n');
+        window.location.href = 'mailto:panshulvarma@gmail.com?subject=' + encodeURIComponent('Free website audit request') + '&body=' + encodeURIComponent(body);
+        status.className = 'form__status is-ok'; status.textContent = 'Your email app should open with the details filled in. Press send there to finish.';
+        btn.disabled = false; btn.textContent = 'Send my audit request'; return;
+      }
+      data.append('access_key', key); data.append('subject', 'New Loomline audit request'); data.append('from_name', 'Loomline website');
+      fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Accept': 'application/json' }, body: data })
+        .then(function (r) { return r.json(); })
         .then(function (r) {
-          if (!r.ok) throw new Error('bad status');
+          if (!r.success) throw new Error('bad status');
           form.reset(); status.className = 'form__status is-ok'; status.textContent = 'Thanks. Your audit request is in, and we will reply by email.';
         })
         .catch(function () { status.className = 'form__status is-err'; status.textContent = 'That did not send. Please check your connection and try again in a moment.'; })
