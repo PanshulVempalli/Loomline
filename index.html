@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loomline | Websites and AI assistants for London local businesses</title>
+<meta name="description" content="Loomline builds fast websites and AI enquiry assistants for independent London trades, salons, clinics and small shops. Get a free 5-point website audit.">
+<meta name="theme-color" content="#0D0B26">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Loomline">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="Loomline | Websites and AI assistants for London local businesses">
+<meta property="og:description" content="Fast websites and AI enquiry assistants for independent London businesses. Get a free 5-point website audit.">
+<!-- TODO before launch: once the domain is chosen, add <link rel="canonical">, og:url and an absolute og:image (assets/og-image.png), and a sitemap line in robots.txt. -->
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<script>document.documentElement.className+=' js';</script>
+<link rel="stylesheet" href="assets/styles.css">
+<script type="application/ld+json">{
+ "@context": "https://schema.org",
+ "@type": "ProfessionalService",
+ "name": "Loomline",
+ "description": "Web development and AI agent studio for independent local service businesses in London: website builds, AI enquiry and booking assistants, and monthly care plans.",
+ "areaServed": {"@type": "City", "name": "London"},
+ "address": {"@type": "PostalAddress", "addressLocality": "London", "addressCountry": "GB"},
+ "knowsAbout": ["Web design", "Web development", "Local SEO", "AI chatbots", "Website maintenance"]
+}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="bar">
+  <a class="brand" href="#top" aria-label="Loomline home"><img src="assets/logo-icon.svg" alt="" width="36" height="36"><span>Loomline</span></a>
+  <button class="bar__toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+  <nav class="nav" id="nav" aria-label="Main">
+    <a href="#build">What we build</a>
+    <a href="#assistant">Assistant demo</a>
+    <a href="#demos">Concept demos</a>
+    <a href="#audit">The audit</a>
+    <a href="#process">Process</a>
+    <a href="#faq">Questions</a>
+    <a class="btn btn--small" href="#contact">Free audit</a>
+  </nav>
+</header>
+
+<main id="main">
+
+<section class="hero" id="top">
+  <canvas class="hero__canvas" id="weave" aria-hidden="true"></canvas>
+  <div class="hero__inner">
+    <h1 class="hero__title">
+      <span class="hero__line"><span>A&nbsp;website that</span></span>
+      <span class="hero__line"><span>wins you work,</span></span>
+      <span class="hero__line"><span>not just visitors.</span></span>
+    </h1>
+    <p class="hero__lead">Loomline builds fast, clear websites for London trades, salons, clinics and small shops, and adds an assistant that answers enquiries while you are busy.</p>
+    <div class="hero__actions">
+      <a class="btn btn--magnet" href="#contact">Get a free 5-point website audit</a>
+      <p class="hero__hint">Free, in plain English, no obligation. Move your cursor across the page: the coral thread follows.</p>
+    </div>
+  </div>
+</section>
+
+<svg class="thread" id="thread" aria-hidden="true" focusable="false"><path class="thread__base"></path><path class="thread__draw"></path><g class="thread__nodes"></g><circle class="thread__head" r="6"></circle></svg>
+
+<section class="section" id="build" data-node>
+  <div class="wrap">
+    <h2 class="section__title" data-anchor>One thread from your website to your next customer.</h2>
+    <p class="section__lead">If you are a plumber on a job, a stylist with a full diary or a clinic with a busy front desk, your website should quietly do its work. We keep it simple, quick and easy to keep up to date.</p>
+    <div class="rows">
+      <article class="row">
+        <h3>Website builds</h3>
+        <p>A clear, mobile-first site that says what you do, where you work and how to get in touch, with the basics of local search set up properly.</p>
+      </article>
+      <article class="row">
+        <h3>AI enquiry and booking assistants</h3>
+        <p>A chat assistant on your site that answers common questions and takes job details, then hands real leads to real people. It always says it is an assistant, and you stay in control.</p>
+      </article>
+      <article class="row">
+        <h3>Monthly care plans</h3>
+        <p>Hosting, updates, small edits and a quick monthly check, so your site stays secure and current without you thinking about it.</p>
+      </article>
+    </div>
+    <p class="section__note">Prices are agreed in writing after your audit, before any work starts.</p>
+  </div>
+</section>
+
+<section class="section" id="assistant" data-node>
+  <div class="wrap split">
+    <div>
+      <h2 class="section__title" data-anchor>See an assistant handle an enquiry.</h2>
+      <p class="section__lead">Pick a business and watch a typical conversation. The assistant takes the details and passes them to the team, and it never pretends to be a person.</p>
+      <div class="chips" role="group" aria-label="Choose a demo business">
+        <button class="chip" type="button" data-scenario="plumber" aria-pressed="true">Plumber</button>
+        <button class="chip" type="button" data-scenario="salon" aria-pressed="false">Salon</button>
+        <button class="chip" type="button" data-scenario="clinic" aria-pressed="false">Clinic</button>
+      </div>
+      <p class="section__note">This is a scripted illustration with fictional businesses, not a live AI. A working demo assistant is coming.</p>
+    </div>
+    <div class="chat" id="chat">
+      <div class="chat__head"><span class="chat__dot"></span><strong id="chatName">Northgate Plumbing</strong><span class="chat__tag">AI assistant</span></div>
+      <div class="chat__log" id="chatLog" role="log" aria-live="off"></div>
+      <div class="lead-card" id="leadCard" aria-live="polite" hidden></div>
+      <button class="chat__replay" id="chatReplay" type="button">Replay conversation</button>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="demos" data-node>
+  <div class="wrap">
+    <h2 class="section__title" data-anchor>Concept demos, not client work.</h2>
+    <p class="section__lead">We are a new studio and will not pretend otherwise. These three concepts show our approach for different trades. The businesses are fictional, and nothing here is a real client, review or result.</p>
+    <div class="frames">
+      <article class="frame" tabindex="0">
+        <div class="frame__top" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="frame__screen frame__screen--a" aria-hidden="true">
+          <div class="mini-nav"><span>Northgate Plumbing</span><span>Services</span></div>
+          <div class="mini-h">Burst pipe? Call now.</div>
+          <div class="mini-p">Call-first layout, big tap-to-call button and the areas covered.</div>
+          <span class="mini-btn">Call now</span>
+        </div>
+        <div class="frame__meta"><span class="badge">Concept demo</span><h3>Emergency plumber</h3><p>Phone-first layout, service area list and an assistant for out-of-hours messages.</p></div>
+      </article>
+      <article class="frame" tabindex="0">
+        <div class="frame__top" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="frame__screen frame__screen--b" aria-hidden="true">
+          <div class="mini-nav"><span>Studio Fern Hair</span><span>Services</span></div>
+          <div class="mini-h">Hair, done properly.</div>
+          <div class="mini-p">Service menu with durations, booking front and centre, space for the salon's own photos.</div>
+          <span class="mini-btn">Book a visit</span>
+        </div>
+        <div class="frame__meta"><span class="badge">Concept demo</span><h3>Independent salon</h3><p>Clean service menu, booking-first layout and an assistant that answers price and availability questions.</p></div>
+      </article>
+      <article class="frame" tabindex="0">
+        <div class="frame__top" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="frame__screen frame__screen--c" aria-hidden="true">
+          <div class="mini-nav"><span>Elmfield Physio</span><span>Services</span></div>
+          <div class="mini-h">Move well. Feel better.</div>
+          <div class="mini-p">Practitioner profiles, what to expect on a first visit and a clear way to request an appointment.</div>
+          <span class="mini-btn">Request an appointment</span>
+        </div>
+        <div class="frame__meta"><span class="badge">Concept demo</span><h3>Small clinic</h3><p>Trust-first layout and careful wording. An assistant here would never give medical advice.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="audit" data-node>
+  <div class="wrap split">
+    <div>
+      <h2 class="section__title" data-anchor>Five checks. One honest summary.</h2>
+      <p class="section__lead">We look at your current website, or your Google Business Profile if you do not have a site yet, and tell you what works, what does not and what to fix first. Use it yourself, with another developer or with us.</p>
+      <p class="section__cta"><a class="btn btn--magnet" href="#contact">Get a free 5-point website audit</a></p>
+    </div>
+    <div class="acc">
+      <details name="audit" open><summary>Mobile experience</summary><p>Is it easy to read, scroll and tap on a phone, where most local searches happen?</p></details>
+      <details name="audit"><summary>Speed</summary><p>Does the page load quickly on an ordinary mobile connection?</p></details>
+      <details name="audit"><summary>Local findability</summary><p>Do titles, headings and local details help you appear for the work you want in your area?</p></details>
+      <details name="audit"><summary>Contact path</summary><p>Can a visitor call, book or enquire in one or two taps, and does the form actually work?</p></details>
+      <details name="audit"><summary>Trust and accessibility basics</summary><p>Is it readable, usable by keyboard and clear about who you are?</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="process" data-node>
+  <div class="wrap">
+    <h2 class="section__title" data-anchor>From first look to launch in four steps.</h2>
+    <ol class="steps">
+      <li><span class="steps__n">1</span><h3>Free audit</h3><p>You send your details. We review your site against five practical checks and send a short summary.</p></li>
+      <li><span class="steps__n">2</span><h3>Plan together</h3><p>We agree what you need and what it costs, in writing, before any work starts.</p></li>
+      <li><span class="steps__n">3</span><h3>Build and review</h3><p>We build it, you review it, and we make changes until you are happy.</p></li>
+      <li><span class="steps__n">4</span><h3>Launch and look after</h3><p>We put it live and, if you want, keep it healthy with a monthly care plan.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section" id="faq" data-node>
+  <div class="wrap split">
+    <div>
+      <h2 class="section__title" data-anchor>No hype. No hidden extras.</h2>
+      <ul class="ticks">
+        <li>We never invent reviews, testimonials or results, for you or for us.</li>
+        <li>We do not promise rankings, enquiries or sales. Nobody honest can.</li>
+        <li>You own your website, your domain and your content.</li>
+        <li>If an AI assistant is not right for your business, we will say so.</li>
+      </ul>
+    </div>
+    <div class="acc">
+      <details><summary>Do you only work in London?</summary><p>London is our focus, so we can talk things through in person if that helps. Remote work is fine too.</p></details>
+      <details><summary>Is the audit really free?</summary><p>Yes. You get a short written summary of what we found. We will mention how we could help, but there is no pressure and no obligation.</p></details>
+      <details><summary>Will an AI assistant replace me or my staff?</summary><p>No. It handles the repetitive first questions and takes down job details so you can reply faster. A person always handles the real work and the final decisions.</p></details>
+      <details><summary>What does it cost?</summary><p>Every business is different, so we quote after the audit and agree the price in writing before any work starts.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap split">
+    <div>
+      <h2 class="section__title section__title--ink">Get your free <span style="white-space:nowrap">5-point</span> website audit.</h2>
+      <p class="section__lead section__lead--ink">Tell us where to look. We will review your site and send a plain-English summary. It is free, there is no obligation, and you keep the findings either way.</p>
+    </div>
+    <form class="form" id="auditForm" name="audit" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="audit">
+      <p class="form__trap"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+      <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+      <div class="field"><label for="f-biz">Business name</label><input id="f-biz" name="business" type="text" autocomplete="organization" required></div>
+      <div class="field"><label for="f-url">Website or Google Business Profile link <span class="field__opt">(optional)</span></label><input id="f-url" name="website" type="text" inputmode="url" autocomplete="url"></div>
+      <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+      <div class="field"><label for="f-msg">Anything you want us to look at? <span class="field__opt">(optional)</span></label><textarea id="f-msg" name="message" rows="3"></textarea></div>
+      <div class="check"><input id="f-ok" name="consent" type="checkbox" required><label for="f-ok">I am happy for Loomline to contact me about this audit.</label></div>
+      <button class="btn btn--ink" type="submit">Send my audit request</button>
+      <p class="form__status" id="formStatus" role="status"></p>
+      <p class="form__privacy">We use your details only to prepare your audit and reply to you. We do not add you to a mailing list, and you can ask us to delete your details at any time.</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot__inner">
+    <a class="brand" href="#top" aria-label="Loomline home"><img src="assets/logo-icon.svg" alt="" width="32" height="32"><span>Loomline</span></a>
+    <p>Websites that work. Agents that help. A small studio for independent London businesses.</p>
+    <p class="foot__legal">&copy; <span id="year">2026</span> Loomline, London.</p>
+  </div>
+</footer>
+
+<!-- TODO before launch: add a full privacy notice, the legal entity name and company number if any, and a real contact email or phone if you want one shown. -->
+<script src="assets/app.js" defer></script>
+</body>
+</html>
