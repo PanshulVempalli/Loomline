@@ -1,3 +1,8 @@
+@font-face{font-family:'Syne';font-weight:700;font-style:normal;font-display:swap;src:url('fonts/syne-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Syne';font-weight:800;font-style:normal;font-display:swap;src:url('fonts/syne-latin-800-normal.woff2') format('woff2')}
+@font-face{font-family:'Instrument Sans';font-weight:400;font-style:normal;font-display:swap;src:url('fonts/instrument-sans-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Instrument Sans';font-weight:500;font-style:normal;font-display:swap;src:url('fonts/instrument-sans-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Instrument Sans';font-weight:600;font-style:normal;font-display:swap;src:url('fonts/instrument-sans-latin-600-normal.woff2') format('woff2')}
 :root{
   --bg:#0D0B26; --surface:#15123A; --surface-2:#1E1B4B; --line:#2F2B70;
   --text:#F4F4FB; --muted:#A9A7CD; --teal:#14B8A6; --teal-deep:#0F766E; --coral:#FB7185;

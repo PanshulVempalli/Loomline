@@ -13,8 +13,7 @@
 <meta property="og:description" content="Fast websites and AI enquiry assistants for independent London businesses. Get a free 5-point website audit.">
 <!-- TODO before launch: once the domain is chosen, add <link rel="canonical">, og:url and an absolute og:image (assets/og-image.png), and a sitemap line in robots.txt. -->
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/syne-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
 <script>(function(d){d.className+=' js';if(!matchMedia('(prefers-reduced-motion: reduce)').matches){d.className+=' motion-ok';setTimeout(function(){d.className+=' motion-fallback';},2500);}})(document.documentElement);</script>
 <link rel="stylesheet" href="assets/styles.css">
 <script type="application/ld+json">{
@@ -215,7 +214,7 @@
         <button class="chip" type="button" data-scenario="salon" aria-pressed="false">Salon</button>
         <button class="chip" type="button" data-scenario="clinic" aria-pressed="false">Clinic</button>
       </div>
-      <p class="section__note">This is a scripted illustration with fictional businesses, not a live AI. A working demo assistant is coming.</p>
+      <p class="section__note">This is a scripted illustration with fictional businesses, not a live AI. A working demo assistant is coming. For clinics, assistants handle opening times and booking requests only, never symptoms or medical details.</p>
     </div>
     <div class="chat" id="chat">
       <div class="chat__head"><span class="chat__dot"></span><strong id="chatName">Northgate Plumbing</strong><span class="chat__tag">AI assistant</span></div>
@@ -331,7 +330,7 @@
       <p class="book__role">Founder, Loomline</p>
       <!-- TODO: replace href with your Cal.com booking link -->
       <a class="btn btn--magnet" href="#contact">Book a call</a>
-      <p class="book__note">Prefer to write? Use the audit form below.</p>
+      <p class="book__note">Prefer to write? Email <a href="mailto:panshulvarma@gmail.com">panshulvarma@gmail.com</a> or use the audit form below.</p>
     </div>
   </div>
 </section>
@@ -342,8 +341,7 @@
       <h2 class="section__title section__title--ink" data-reveal>Get your free <span style="white-space:nowrap">5-point</span> website audit.</h2>
       <p class="section__lead section__lead--ink">Tell us where to look. We will review your site and send a plain-English summary. It is free, there is no obligation, and you keep the findings either way.</p>
     </div>
-    <form class="form" id="auditForm" name="audit" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" novalidate>
-      <input type="hidden" name="form-name" value="audit">
+    <form class="form" id="auditForm" name="audit" method="POST" data-key="PASTE_WEB3FORMS_KEY_HERE" novalidate>
       <p class="form__trap"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
       <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
       <div class="field"><label for="f-biz">Business name</label><input id="f-biz" name="business" type="text" autocomplete="organization" required></div>
@@ -364,11 +362,12 @@
   <div class="foot__inner">
     <a class="brand" href="#top" aria-label="Loomline home"><img src="assets/logo-icon.svg" alt="" width="32" height="32"><span>Loomline</span></a>
     <p>Websites that work. Agents that help. A small studio for independent London businesses.</p>
-    <p class="foot__legal">&copy; <span id="year">2026</span> Loomline, London.</p>
+    <p><a href="mailto:panshulvarma@gmail.com">panshulvarma@gmail.com</a> &middot; <a href="privacy.html">Privacy notice</a></p>
+    <p class="foot__legal">&copy; <span id="year">2026</span> Loomline, London. Run by Panshul Vempalli.</p>
   </div>
 </footer>
 
-<!-- TODO before launch: add a full privacy notice, the legal entity name and company number if any, and a real contact email or phone if you want one shown. -->
+<!-- TODO before taking paying customers: show a geographic address for service (UK e-commerce rules), and the company name, number and registered office if Loomline is a limited company. -->
 <script src="assets/vendor/lenis.min.js" defer></script>
 <script src="assets/vendor/gsap.min.js" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
