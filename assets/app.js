@@ -260,26 +260,75 @@
   /* ---------- audit form ---------- */
   (function () {
     var form = $('#auditForm'), status = $('#formStatus'); if (!form) return;
+
+    /* Rate-limit: max 3 submissions per session to block bot floods */
+    var SUBMIT_KEY = 'll_sub_count', MAX_SUBS = 3;
+    function subCount() { try { return parseInt(sessionStorage.getItem(SUBMIT_KEY) || '0', 10); } catch(e) { return 0; } }
+    function bumpCount() { try { sessionStorage.setItem(SUBMIT_KEY, String(subCount() + 1)); } catch(e) {} }
+
+    /* Sanitise: strip tags, limit length */
+    function clean(s, max) { return String(s || '').replace(/[<>"'`]/g, '').trim().slice(0, max || 500); }
+
+    /* Honeypot: bots fill hidden fields; humans never see them */
+    var hp = document.createElement('input');
+    hp.type = 'text'; hp.name = 'website_url'; hp.setAttribute('autocomplete', 'off');
+    hp.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;';
+    hp.setAttribute('tabindex', '-1'); hp.setAttribute('aria-hidden', 'true');
+    form.appendChild(hp);
+
+    /* Timestamp check: real users take >3 s to fill a form */
+    var loadedAt = Date.now();
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       status.className = 'form__status'; status.textContent = '';
-      var bad = $$('[required]', form).filter(function (el) { var ok = el.type === 'checkbox' ? el.checked : el.checkValidity() && el.value.trim() !== ''; el.classList.toggle('is-bad', !ok); return !ok; });
+
+      /* Honeypot check */
+      if (hp.value) return; // bot filled the hidden field — silently drop
+
+      /* Timing check */
+      if (Date.now() - loadedAt < 3000) { status.className = 'form__status is-err'; status.textContent = 'Please take a moment and try again.'; return; }
+
+      /* Rate limit */
+      if (subCount() >= MAX_SUBS) { status.className = 'form__status is-err'; status.textContent = 'Too many submissions. Please email panshulvarma@gmail.com directly.'; return; }
+
+      var bad = $$('[required]', form).filter(function (el) {
+        if (el === hp) return false; // skip honeypot
+        var ok = el.type === 'checkbox' ? el.checked : el.checkValidity() && el.value.trim() !== '';
+        el.classList.toggle('is-bad', !ok); return !ok;
+      });
       if (bad.length) { status.className = 'form__status is-err'; status.textContent = 'Please complete the highlighted fields.'; bad[0].focus(); return; }
+
       var btn = $('button[type=submit]', form); btn.disabled = true; btn.textContent = 'Sending';
-      var key = form.getAttribute('data-key') || '', data = new FormData(form);
+      var key = form.getAttribute('data-key') || '', rawData = new FormData(form);
+
+      /* Sanitised safe copy — never trust raw user input */
+      var safe = new FormData();
+      safe.append('name',     clean(rawData.get('name'), 120));
+      safe.append('business', clean(rawData.get('business'), 160));
+      safe.append('website',  clean(rawData.get('website'), 200));
+      safe.append('email',    clean(rawData.get('email'), 200));
+      safe.append('message',  clean(rawData.get('message'), 1000));
+      /* consent checkbox value is 'on' or absent — no user text to sanitise */
+      if (rawData.get('consent')) safe.append('consent', 'yes');
+
       if (!key || key.indexOf('PASTE') === 0) {
-        // no form-service key yet: open the visitor's mail app with the details filled in, so nothing is lost
-        var body = ['Name: ' + data.get('name'), 'Business: ' + data.get('business'), 'Website: ' + (data.get('website') || ''), 'Email: ' + data.get('email'), '', data.get('message') || ''].join('\n');
+        var body = ['Name: ' + safe.get('name'), 'Business: ' + safe.get('business'), 'Website: ' + (safe.get('website') || ''), 'Email: ' + safe.get('email'), '', safe.get('message') || ''].join('\n');
         window.location.href = 'mailto:panshulvarma@gmail.com?subject=' + encodeURIComponent('Free website audit request') + '&body=' + encodeURIComponent(body);
         status.className = 'form__status is-ok'; status.textContent = 'Your email app should open with the details filled in. Press send there to finish.';
-        btn.disabled = false; btn.textContent = 'Send my audit request'; return;
+        bumpCount(); btn.disabled = false; btn.textContent = 'Send my audit request'; return;
       }
-      data.append('access_key', key); data.append('subject', 'New Loomline audit request'); data.append('from_name', 'Loomline website');
-      fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Accept': 'application/json' }, body: data })
+
+      safe.append('access_key', key);
+      safe.append('subject', 'New Loomline audit request');
+      safe.append('from_name', 'Loomline website');
+
+      fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Accept': 'application/json' }, body: safe })
         .then(function (r) { return r.json(); })
         .then(function (r) {
           if (!r.success) throw new Error('bad status');
-          form.reset(); status.className = 'form__status is-ok'; status.textContent = 'Thanks. Your audit request is in, and we will reply by email.';
+          bumpCount(); form.reset(); loadedAt = Date.now();
+          status.className = 'form__status is-ok'; status.textContent = 'Thanks. Your audit request is in, and we will reply by email.';
         })
         .catch(function () { status.className = 'form__status is-err'; status.textContent = 'That did not send. Please check your connection and try again in a moment.'; })
         .finally(function () { btn.disabled = false; btn.textContent = 'Send my audit request'; });
